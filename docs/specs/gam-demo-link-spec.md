@@ -8,6 +8,7 @@
 |------|------|----------|
 | v0.1 | 2026-02-02 | 初版建立 |
 | v0.2 | 2026-02-02 | 灰色佔位區塊改為單一長區塊（2000px） |
+| v0.3 | 2026-02-02 | 移除 ad-container 包裝，廣告 div 直接置於 body |
 
 ## 1. 檔案結構
 
@@ -46,7 +47,7 @@ googletag.cmd.push(function() {
 
 ### 2.2 HTML Body
 
-#### 廣告容器
+#### 廣告版位（無外層包裝，直接置於 body）
 
 ```html
 <div id="div-gpt-ad-1770014037084-0">
@@ -76,11 +77,6 @@ body {
   padding: 0;
   background: #F5F5F5;
   -webkit-overflow-scrolling: touch;   /* iOS 滑動順暢 */
-}
-
-廣告容器 {
-  width: 100%;
-  overflow: hidden;                     /* 防止 creative 溢出 */
 }
 
 灰色佔位區塊 {
