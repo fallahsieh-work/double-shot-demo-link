@@ -1,5 +1,13 @@
 # PRD：GAM 廣告 Demo Link 頁面
 
+## 版本紀錄
+
+| 版本 | 日期 | 變更內容 |
+|------|------|----------|
+| v0.1 | 2026-02-02 | 初版建立，含基本頁面結構與 3 個廣告版位 |
+| v0.2 | 2026-02-02 | 更新為單一 1x1 Ad Unit，新增 creative 互動流程 |
+| v0.3 | 2026-02-02 | 加入 GAM Ad Unit Path 與 Slot 資訊 |
+
 ## 1. 概述
 
 一個靜態手機 HTML 頁面，透過 Google Publisher Tag (GPT) 嵌入單一 GAM 1x1 Ad Unit，供業務團隊做客戶提案展示使用。該 1x1 Ad Unit 的 creative 內部自帶完整互動邏輯，包含 4 個素材與動畫效果。
@@ -16,6 +24,9 @@
 |------|------|
 | 廣告技術 | Google Publisher Tag (GPT) + GAM |
 | Ad Unit | 單一 1x1 Ad Unit（公司自有） |
+| Ad Unit Path | `/31610311/supertaste_m_read_uptop_test` |
+| Slot 尺寸定義 | `[336, 280]`, `fluid`, `[1, 1]` |
+| Slot Div ID | `div-gpt-ad-1770014037084-0` |
 | 互動邏輯 | 全部由 creative 內部控制，頁面端僅需提供版位容器 |
 | 頁面類型 | 純靜態 HTML，無後端 |
 | 內容區塊 | 灰色佔位區塊（無真實內容） |
@@ -96,9 +107,9 @@
 - [x] 互動邏輯：creative 內部控制 ✅
 - [x] 觸發時機：滑動超過素材 1 範圍 ✅
 - [x] 部署方式：GitHub Pages ✅
-- [ ] 公司的 GAM Ad Unit Path（格式如 `/network-id/ad-unit-name`）
-- [ ] Creative 是否需要頁面提供特定的 DOM 結構或 CSS class 來定位？
-- [ ] Creative 是否需要頁面引入額外的 JS SDK（除了 GPT 以外）？
+- [x] 公司的 GAM Ad Unit Path：`/31610311/supertaste_m_read_uptop_test` ✅
+- [ ] Creative 是否需要頁面提供特定的 DOM 結構或 CSS class 來定位？（開發中驗證）
+- [ ] Creative 是否需要頁面引入額外的 JS SDK（除了 GPT 以外）？（開發中驗證）
 
 ## 8. 風險與邊界條件
 
