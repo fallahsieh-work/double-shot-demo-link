@@ -8,6 +8,7 @@
 | v0.2 | 2026-02-02 | 更新為單一 1x1 Ad Unit，新增 creative 互動流程 |
 | v0.3 | 2026-02-02 | 加入 GAM Ad Unit Path 與 Slot 資訊 |
 | v0.4 | 2026-02-02 | 灰色佔位改為單一長區塊；移除 ad-container 包裝 |
+| v0.5 | 2026-02-02 | 所有驗證項目通過，功能完成 |
 
 ## 1. 概述
 
@@ -105,8 +106,8 @@
 - [x] 觸發時機：滑動超過素材 1 範圍 ✅
 - [x] 部署方式：GitHub Pages ✅
 - [x] 公司的 GAM Ad Unit Path：`/31610311/supertaste_m_read_uptop_test` ✅
-- [ ] Creative 是否需要頁面提供特定的 DOM 結構或 CSS class 來定位？（開發中驗證）
-- [ ] Creative 是否需要頁面引入額外的 JS SDK（除了 GPT 以外）？（開發中驗證）
+- [x] Creative 是否需要頁面提供特定的 DOM 結構或 CSS class 來定位？→ 不需要 ✅
+- [x] Creative 是否需要頁面引入額外的 JS SDK（除了 GPT 以外）？→ 不需要 ✅
 
 ## 8. 風險與邊界條件
 
