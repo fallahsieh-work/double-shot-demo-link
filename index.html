@@ -80,10 +80,15 @@
 
       /* 桌面版廣告容器調整 */
       .ad-wrapper {
-        width: 375px !important;
-        max-width: 375px !important;
-        overflow: hidden !important;
-        clip-path: inset(0);
+        width: 375px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      #div-gpt-ad-1770632308034-0 {
+        transform: scale(0.35);
+        transform-origin: top center;
       }
     }
 
@@ -173,18 +178,15 @@
       margin-bottom: 20px;
     }
 
-    /* 廣告外層容器 - 強制裁切 */
+    /* 廣告外層容器 */
     .ad-wrapper {
       width: 100%;
-      max-width: 100%;
-      overflow: hidden;
-      position: relative;
+      display: flex;
+      justify-content: center;
     }
 
     /* 廣告容器 */
     #div-gpt-ad-1770632308034-0 {
-      width: 100%;
-      max-width: 100%;
       background: #F5F5F5;
     }
   </style>
