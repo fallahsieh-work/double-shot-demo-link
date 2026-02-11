@@ -9,6 +9,8 @@
     window.googletag = window.googletag || {cmd: []};
     googletag.cmd.push(function() {
       googletag.defineSlot('/31610311/v4_news_amp_fun_read_inarticle1', [[1, 1], [336, 280], [300, 250], 'fluid'], 'div-gpt-ad-1770632308034-0').addService(googletag.pubads());
+      googletag.pubads().setTargeting('news_article_id', '3123658');
+      googletag.pubads().setTargeting('filled_slots', '');
       googletag.pubads().enableSingleRequest();
       googletag.enableServices();
     });
