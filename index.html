@@ -69,8 +69,26 @@
         min-height: auto;
         border-radius: 30px;
         box-shadow: 0 0 30px rgba(0,0,0,0.5);
-        overflow: hidden;
+        overflow-y: auto;
+        overflow-x: hidden;
         position: relative;
+      }
+
+      /* 桌面版廣告容器調整 */
+      .ad-wrapper {
+        width: 100%;
+        max-width: 375px;
+      }
+
+      #div-gpt-ad-1770632308034-0 {
+        width: 100%;
+        max-width: 375px;
+      }
+
+      #div-gpt-ad-1770632308034-0 iframe {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
       }
     }
 
@@ -163,17 +181,13 @@
     /* 廣告外層容器 */
     .ad-wrapper {
       width: 100%;
-      overflow: hidden;
+      display: flex;
+      justify-content: center;
     }
 
     /* 廣告容器 */
     #div-gpt-ad-1770632308034-0 {
-      width: 100%;
       background: #F5F5F5;
-    }
-
-    #div-gpt-ad-1770632308034-0 iframe {
-      max-width: 100%;
     }
   </style>
   <!-- ========== 頁面樣式 END ========== -->
