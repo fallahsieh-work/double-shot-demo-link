@@ -34,13 +34,35 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: #F5F5F5;
+      background: #333;
       -webkit-overflow-scrolling: touch;
       font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
     }
 
     html {
       scroll-behavior: auto;
+    }
+
+    /* 手機模擬器容器 */
+    .mobile-wrapper {
+      max-width: 414px;
+      margin: 0 auto;
+      background: #F5F5F5;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* 桌面版顯示手機框架 */
+    @media (min-width: 500px) {
+      body {
+        padding: 20px 0;
+      }
+      .mobile-wrapper {
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        overflow: hidden;
+        min-height: calc(100vh - 40px);
+      }
     }
 
     /* Header Bar */
@@ -133,6 +155,9 @@
 </head>
 <body>
 
+  <!-- 手機模擬器容器 -->
+  <div class="mobile-wrapper">
+
   <!-- ========== 廣告版位區塊 ========== -->
   <!-- /31610311/v4_news_amp_fun_read_inarticle1 -->
   <div id='div-gpt-ad-1770632308034-0'>
@@ -188,6 +213,9 @@
 
   </div>
   <!-- ========== 文章頁區塊 END ========== -->
+
+  </div>
+  <!-- 手機模擬器容器 END -->
 
 </body>
 </html>
