@@ -55,13 +55,21 @@
     /* 桌面版顯示手機框架 */
     @media (min-width: 500px) {
       body {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
         padding: 20px 0;
+        min-height: 100vh;
       }
       .mobile-wrapper {
-        border-radius: 20px;
+        width: 375px;
+        max-width: 375px;
+        height: calc(100vh - 40px);
+        min-height: auto;
+        border-radius: 30px;
         box-shadow: 0 0 30px rgba(0,0,0,0.5);
-        overflow: hidden;
-        min-height: calc(100vh - 40px);
+        overflow-y: auto;
+        overflow-x: hidden;
       }
     }
 
