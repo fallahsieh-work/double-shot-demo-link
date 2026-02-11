@@ -19,6 +19,35 @@
 
       googletag.pubads().enableSingleRequest();
       googletag.enableServices();
+
+      // 桌機版廣告等比縮放
+      googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+        // 只在桌機版執行
+        if (window.innerWidth < 500) return;
+
+        var slotId = event.slot.getSlotElementId();
+        var adContainer = document.getElementById(slotId);
+        if (!adContainer) return;
+
+        // 延遲執行，確保廣告完全渲染
+        setTimeout(function() {
+          var iframe = adContainer.querySelector('iframe');
+          if (!iframe) return;
+
+          var adWidth = iframe.offsetWidth || iframe.clientWidth;
+          var maxWidth = 375;
+
+          // 如果廣告寬度超過框架寬度，進行等比縮放
+          if (adWidth > maxWidth) {
+            var scale = maxWidth / adWidth;
+            adContainer.style.transformOrigin = 'top center';
+            adContainer.style.transform = 'scale(' + scale + ')';
+            // 調整容器高度以避免空白
+            var adHeight = iframe.offsetHeight || iframe.clientHeight;
+            adContainer.style.height = (adHeight * scale) + 'px';
+          }
+        }, 500);
+      });
     });
   </script>
   <!-- ========== GPT 廣告設定 END ========== -->
@@ -81,14 +110,7 @@
       }
 
       #div-gpt-ad-1770632308034-0 {
-        width: 100%;
-        max-width: 375px;
-      }
-
-      #div-gpt-ad-1770632308034-0 iframe {
-        max-width: 100% !important;
-        width: 100% !important;
-        height: auto !important;
+        width: auto;
       }
     }
 
