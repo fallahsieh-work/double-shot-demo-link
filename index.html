@@ -62,19 +62,7 @@
         width: 100%;
         max-width: 375px;
         background: #F5F5F5;
-        overflow: hidden;
         position: relative;
-      }
-
-      /* GPT 創建的 poprichad-container 樣式覆蓋 */
-      #ad-placeholder .poprichad-container,
-      #ad-placeholder [class*="poprichad"] {
-        position: relative !important;
-        max-width: 375px !important;
-        width: 100% !important;
-        left: 0 !important;
-        right: 0 !important;
-        transform: none !important;
       }
 
       /* 桌機版隱藏手機原生內容 */
@@ -229,9 +217,8 @@
           // 如果在 mobile-wrapper 裡面，跳過（不動手機版）
           if (container.closest('.mobile-wrapper')) return;
 
-          // 移動到 ad-placeholder
+          // 移動到 ad-placeholder，不修改樣式，保留原本的行為
           adPlaceholder.appendChild(container);
-          container.style.cssText = 'position: relative !important; max-width: 375px !important; width: 100% !important; left: 0 !important; top: 0 !important; transform: none !important;';
         });
 
         // 找 #topImage 或 .top-image
