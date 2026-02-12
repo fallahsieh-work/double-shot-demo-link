@@ -31,7 +31,11 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html {
+      overflow-x: hidden;
+    }
+
+    body {
       margin: 0;
       padding: 0;
       background: #F5F5F5;
@@ -40,6 +44,7 @@
       width: 100%;
       max-width: 100%;
       overflow-x: hidden;
+      position: relative;
     }
 
     /* Header Bar */
@@ -133,11 +138,30 @@
       width: 100%;
       display: flex;
       justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
 
     /* 廣告容器 */
     #div-gpt-ad-1770632308034-0 {
       background: #F5F5F5;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 限制廣告素材 */
+    #div-gpt-ad-1770632308034-0 * {
+      max-width: 100% !important;
+    }
+
+    #div-gpt-ad-1770632308034-0 img {
+      position: relative !important;
+      max-width: 100% !important;
+    }
+
+    .top-image, [class*="top-image"], #topImage {
+      position: relative !important;
+      max-width: 100% !important;
     }
   </style>
   <!-- ========== 頁面樣式 END ========== -->
