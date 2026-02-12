@@ -200,6 +200,61 @@
   </style>
   <!-- ========== 頁面樣式 END ========== -->
 
+  <!-- ========== 桌機版：預先設定滾動屬性覆蓋 ========== -->
+  <script>
+    if (window.innerWidth >= 500) {
+      // 在廣告載入前就設定好滾動屬性覆蓋
+      var _scrollTop = 0;
+
+      // 覆蓋滾動相關屬性
+      Object.defineProperty(document.documentElement, 'scrollTop', {
+        get: function() { return _scrollTop; },
+        set: function(val) { _scrollTop = val; },
+        configurable: true
+      });
+      Object.defineProperty(document.body, 'scrollTop', {
+        get: function() { return _scrollTop; },
+        set: function(val) { _scrollTop = val; },
+        configurable: true
+      });
+      Object.defineProperty(window, 'pageYOffset', {
+        get: function() { return _scrollTop; },
+        configurable: true
+      });
+      Object.defineProperty(window, 'scrollY', {
+        get: function() { return _scrollTop; },
+        configurable: true
+      });
+
+      // 覆蓋 window.innerHeight 讓廣告認為視窗高度是手機框架高度
+      var _innerHeight = window.innerHeight;
+      Object.defineProperty(window, 'innerHeight', {
+        get: function() {
+          var phoneFrame = document.querySelector('.phone-frame');
+          return phoneFrame ? phoneFrame.clientHeight : _innerHeight;
+        },
+        configurable: true
+      });
+
+      // 覆蓋 window.innerWidth 讓廣告認為視窗寬度是 375px
+      Object.defineProperty(window, 'innerWidth', {
+        get: function() { return 375; },
+        configurable: true
+      });
+
+      // 當 .scroll-content 滾動時更新 _scrollTop
+      document.addEventListener('DOMContentLoaded', function() {
+        var scrollContent = document.querySelector('.scroll-content');
+        if (scrollContent) {
+          scrollContent.addEventListener('scroll', function() {
+            _scrollTop = scrollContent.scrollTop;
+            window.dispatchEvent(new Event('scroll'));
+          });
+        }
+      });
+    }
+  </script>
+
   <!-- ========== GPT 廣告設定 ========== -->
   <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
   <script>
@@ -269,41 +324,6 @@
         setTimeout(movePoprichAdContainer, ms);
       });
 
-      // 轉發 .scroll-content 的滾動事件給 window，讓廣告 JS 能偵測到
-      function setupScrollForwarding() {
-        var scrollContent = document.querySelector('.scroll-content');
-        if (!scrollContent) return;
-
-        scrollContent.addEventListener('scroll', function() {
-          // 模擬 window scroll 事件
-          var scrollEvent = new Event('scroll', { bubbles: true });
-          window.dispatchEvent(scrollEvent);
-
-          // 更新 document.documentElement.scrollTop 讓廣告能讀取
-          Object.defineProperty(document.documentElement, 'scrollTop', {
-            get: function() { return scrollContent.scrollTop; },
-            configurable: true
-          });
-          Object.defineProperty(document.body, 'scrollTop', {
-            get: function() { return scrollContent.scrollTop; },
-            configurable: true
-          });
-          Object.defineProperty(window, 'pageYOffset', {
-            get: function() { return scrollContent.scrollTop; },
-            configurable: true
-          });
-          Object.defineProperty(window, 'scrollY', {
-            get: function() { return scrollContent.scrollTop; },
-            configurable: true
-          });
-        });
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', setupScrollForwarding);
-      } else {
-        setupScrollForwarding();
-      }
     }
   </script>
   <!-- ========== 桌機版移動廣告 END ========== -->
