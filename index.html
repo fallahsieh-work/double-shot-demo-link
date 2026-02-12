@@ -48,6 +48,9 @@
         background: #F5F5F5;
         display: flex;
         flex-direction: column;
+        /* 創建新的 containing block，讓 position:fixed 相對於此容器 */
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
       }
 
       .phone-frame iframe {
