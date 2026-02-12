@@ -69,12 +69,23 @@
       }
 
       /* 強制桌機版廣告跟著頁面滾動 */
-      .poprichad-container,
-      [class*="poprichad"],
+      #poprichad-container,
+      #poprichad-container * {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        z-index: auto !important;
+        transform: none !important;
+      }
+
       #topImage,
-      .top-image,
-      [id*="topImage"],
-      [class*="top-image"] {
+      #stickyTop,
+      #stickyTopImg,
+      #fallingImage,
+      #stickyBottom,
+      #stickyBottomImg {
         position: relative !important;
         top: auto !important;
         left: auto !important;
