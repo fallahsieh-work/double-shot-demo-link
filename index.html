@@ -288,6 +288,42 @@
       [500, 1000, 2000, 3000, 5000].forEach(function(ms) {
         setTimeout(movePoprichAdContainer, ms);
       });
+
+      // 轉發 .scroll-content 的滾動事件給 window，讓廣告 JS 能偵測到
+      function setupScrollForwarding() {
+        var scrollContent = document.querySelector('.scroll-content');
+        if (!scrollContent) return;
+
+        scrollContent.addEventListener('scroll', function() {
+          // 模擬 window scroll 事件
+          var scrollEvent = new Event('scroll', { bubbles: true });
+          window.dispatchEvent(scrollEvent);
+
+          // 更新 document.documentElement.scrollTop 讓廣告能讀取
+          Object.defineProperty(document.documentElement, 'scrollTop', {
+            get: function() { return scrollContent.scrollTop; },
+            configurable: true
+          });
+          Object.defineProperty(document.body, 'scrollTop', {
+            get: function() { return scrollContent.scrollTop; },
+            configurable: true
+          });
+          Object.defineProperty(window, 'pageYOffset', {
+            get: function() { return scrollContent.scrollTop; },
+            configurable: true
+          });
+          Object.defineProperty(window, 'scrollY', {
+            get: function() { return scrollContent.scrollTop; },
+            configurable: true
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupScrollForwarding);
+      } else {
+        setupScrollForwarding();
+      }
     }
   </script>
   <!-- ========== 桌機版移動廣告 END ========== -->
