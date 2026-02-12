@@ -10,6 +10,7 @@
 | v0.2 | 2026-02-02 | 灰色佔位區塊改為單一長區塊（2000px） |
 | v0.3 | 2026-02-02 | 移除 ad-container 包裝，廣告 div 直接置於 body |
 | v0.4 | 2026-02-02 | ad slot 樣式調整（line-height/font-size 0 消除間距）；全部驗證項目通過 |
+| v0.5 | 2026-02-12 | 手機版 fallingImage 強制固定 130x130px（用 JS MutationObserver 覆寫 SDK inline style） |
 
 ## 1. 檔案結構
 
