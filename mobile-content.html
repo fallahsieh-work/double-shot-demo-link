@@ -226,5 +226,30 @@
   </div>
   <!-- ========== 文章頁區塊 END ========== -->
 
+  <!-- ========== 強制 fallingImage 尺寸 130x130 ========== -->
+  <script>
+  (function() {
+    function fixFallingImageSize(el) {
+      if (!el) return;
+      el.style.setProperty('width', '130px', 'important');
+      el.style.setProperty('height', '130px', 'important');
+    }
+
+    // 監聽 DOM 變化，捕捉 SDK 動態產生或修改的元素
+    var observer = new MutationObserver(function() {
+      var img = document.getElementById('fallingImage');
+      if (img) fixFallingImageSize(img);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+
+    // 頁面載入後也執行一次
+    document.addEventListener('DOMContentLoaded', function() {
+      fixFallingImageSize(document.getElementById('fallingImage'));
+    });
+  })();
+  </script>
+  <!-- ========== fallingImage 尺寸 END ========== -->
+
 </body>
 </html>

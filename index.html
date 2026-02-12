@@ -84,11 +84,6 @@
         position: relative;
       }
 
-      /* 桌機版 falling-image 位置調整 */
-      #fallingImage {
-        margin-top: 130px !important;
-      }
-
       /* 桌機版隱藏手機原生內容 */
       .mobile-wrapper {
         display: none;
@@ -203,6 +198,13 @@
     #fallingImage {
       width: 130px !important;
       height: 130px !important;
+      margin-top: 30px !important;
+    }
+
+    /* 桌機版重置 falling-image 位置 */
+    #ad-placeholder #fallingImage,
+    .scroll-content #fallingImage {
+      margin-top: 0 !important;
     }
 
     /* 廣告容器 */
@@ -432,6 +434,34 @@
 
   </div>
   <!-- ========== 手機版 END ========== -->
+
+  <!-- ========== 手機版：強制 fallingImage 尺寸 130x130 ========== -->
+  <script>
+  (function() {
+    // 只在手機版執行
+    if (window.innerWidth >= 500) return;
+
+    function fixFallingImageSize(el) {
+      if (!el) return;
+      el.style.setProperty('width', '130px', 'important');
+      el.style.setProperty('height', '130px', 'important');
+    }
+
+    // 監聽 DOM 變化，捕捉 SDK 動態產生或修改的元素
+    var observer = new MutationObserver(function() {
+      var img = document.getElementById('fallingImage');
+      if (img) fixFallingImageSize(img);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+
+    // 頁面載入後也執行一次
+    document.addEventListener('DOMContentLoaded', function() {
+      fixFallingImageSize(document.getElementById('fallingImage'));
+    });
+  })();
+  </script>
+  <!-- ========== 手機版 fallingImage 尺寸 END ========== -->
 
 </body>
 </html>
