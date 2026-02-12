@@ -46,18 +46,27 @@
         box-shadow: 0 0 30px rgba(0,0,0,0.5);
         overflow: hidden;
         background: #F5F5F5;
-        display: flex;
-        flex-direction: column;
+        position: relative;
         /* 創建新的 containing block，讓 position:fixed 相對於此容器 */
         transform: translateZ(0);
         -webkit-transform: translateZ(0);
       }
 
-      .phone-frame iframe {
-        width: 375px;
-        flex: 1;
-        border: none;
-        display: block;
+      .scroll-content {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .scroll-content img {
+        max-width: 100% !important;
+        height: auto !important;
+      }
+
+      .scroll-content .container {
+        background: #fff;
       }
 
       /* 桌機版廣告佔位區 */
@@ -285,21 +294,52 @@
 </head>
 <body>
 
-  <!-- ========== 桌機版：iframe 嵌入 ========== -->
+  <!-- ========== 桌機版 ========== -->
   <div class="desktop-wrapper">
     <div class="phone-frame">
-      <!-- 廣告佔位區：GPT 創建的 poprichad-container 會被移到這裡 -->
-      <div id="ad-placeholder"></div>
-      <!-- 桌機版廣告觸發 -->
-      <div id="div-gpt-ad-desktop" style="display:none;">
-        <script>
-          if (window.innerWidth >= 500) {
-            googletag.cmd.push(function() { googletag.display('div-gpt-ad-desktop'); });
-          }
-        </script>
+      <div class="scroll-content">
+        <!-- 廣告佔位區：GPT 創建的 poprichad-container 會被移到這裡 -->
+        <div id="ad-placeholder"></div>
+        <!-- 桌機版廣告觸發 -->
+        <div id="div-gpt-ad-desktop" style="display:none;">
+          <script>
+            if (window.innerWidth >= 500) {
+              googletag.cmd.push(function() { googletag.display('div-gpt-ad-desktop'); });
+            }
+          </script>
+        </div>
+
+        <!-- Header Bar -->
+        <header class="header_bar desktop-header">
+          <div class="header_inner">
+            <a href="https://news.tvbs.com.tw/">
+              <img src="https://cc.tvbs.com.tw/img/upload/2021/03/03/20210303100058-ec2daab4.png" alt="TVBS Logo" class="header_logo">
+            </a>
+          </div>
+        </header>
+
+        <!-- 文章主體 -->
+        <div class="container">
+          <h1 class="article_title">TVBS 2026 火力全開</h1>
+          <div class="publish_time">2026/02/09 12:33</div>
+          <div class="img_box">
+            <div class="img">
+              <img width="1200" height="675" decoding="async" loading="lazy" alt="" title="" src="https://cc.tvbs.com.tw/img/upload/2026/02/09/20260209122746-e655e2e5.jpg">
+            </div>
+          </div>
+          <div class="article_content">
+            <p>台灣媒體領導品牌 TVBS 將於2026年舉辦年度大型品牌發表會，正式對外發布全新商業戰略品牌——「Activation」聯力啟動。此次活動被定位為 TVBS 的年度「火力展示」，旨在向廣告代理商與品牌合作夥伴宣告：TVBS 已不僅是電視台，更是具備數據洞察與策展能力的整合行銷啟動者。</p>
+            <div class="img margin_b20">
+              <img alt="" src="https://cc.tvbs.com.tw/img/upload/2026/02/09/20260209122748-aa8497d8.jpg" style="width:100%;height:auto;">
+            </div>
+            <p>TVBS 強調，2026年將要為品牌客戶創造無可取代的頂級感動與傳播效益與業界頂尖硬體與技術夥伴組成「大聯盟」，以強大的策展力與行銷宣傳力，為客戶提供一站式的頂級活動解決方案。</p>
+            <div class="img margin_b20">
+              <img alt="" src="https://cc.tvbs.com.tw/img/upload/2026/02/09/20260209122749-80337c7b.jpg" style="width:100%;height:auto;">
+            </div>
+            <p>敬請期待馬年開展，與TVBS共同見證結合科技、內容與體驗的創新變革，感受 TVBS 2026 年「什麼都有」的全方位商務潛力。</p>
+          </div>
+        </div>
       </div>
-      <!-- 文章內容 iframe -->
-      <iframe src="article-content.html" title="TVBS Article"></iframe>
     </div>
   </div>
   <!-- ========== 桌機版 END ========== -->
