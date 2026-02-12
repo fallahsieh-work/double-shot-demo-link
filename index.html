@@ -216,42 +216,51 @@
   <!-- ========== 桌機版：移動 GPT 創建的 poprichad-container ========== -->
   <script>
     if (window.innerWidth >= 500) {
-      // 監聽 DOM 變化，把 GPT 創建的 poprichad-container 移到 phone-frame 裡
       function movePoprichAdContainer() {
-        var phoneFrame = document.querySelector('.phone-frame');
         var adPlaceholder = document.getElementById('ad-placeholder');
-        if (!phoneFrame || !adPlaceholder) return;
+        if (!adPlaceholder) return;
 
-        // 找到 body 直接子元素中的 poprichad-container
-        var containers = document.querySelectorAll('body > .poprichad-container, body > [class*="poprichad"]');
+        // 找所有 poprichad 相關元素
+        var containers = document.querySelectorAll('.poprichad-container, [class*="poprichad"]');
+
         containers.forEach(function(container) {
-          // 確保不是我們自己創建的
-          if (container.parentElement === document.body) {
-            // 移動到 phone-frame 的 ad-placeholder 裡
-            adPlaceholder.appendChild(container);
-            // 設定樣式確保在框架內
-            container.style.position = 'relative';
-            container.style.maxWidth = '375px';
-            container.style.width = '100%';
+          // 如果已經在 ad-placeholder 裡面，跳過
+          if (adPlaceholder.contains(container)) return;
+          // 如果在 mobile-wrapper 裡面，跳過（不動手機版）
+          if (container.closest('.mobile-wrapper')) return;
+
+          // 移動到 ad-placeholder
+          adPlaceholder.appendChild(container);
+          container.style.cssText = 'position: relative !important; max-width: 375px !important; width: 100% !important; left: 0 !important; top: 0 !important; transform: none !important;';
+        });
+
+        // 找 #topImage 或 .top-image
+        var topImages = document.querySelectorAll('#topImage, .top-image');
+        topImages.forEach(function(img) {
+          if (adPlaceholder.contains(img)) return;
+          if (img.closest('.mobile-wrapper')) return;
+
+          var parent = img.closest('.poprichad-container, [class*="poprichad"]') || img.parentElement;
+          if (parent && !adPlaceholder.contains(parent) && !parent.closest('.mobile-wrapper')) {
+            adPlaceholder.appendChild(parent);
           }
         });
       }
 
-      // 使用 MutationObserver 監聽 body 的變化
-      document.addEventListener('DOMContentLoaded', function() {
-        var observer = new MutationObserver(function(mutations) {
-          movePoprichAdContainer();
-        });
+      // 監聽 DOM 變化
+      var observer = new MutationObserver(movePoprichAdContainer);
 
-        observer.observe(document.body, {
-          childList: true,
-          subtree: false
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          observer.observe(document.body, { childList: true, subtree: true });
         });
+      } else {
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
 
-        // 初始執行一次
-        setTimeout(movePoprichAdContainer, 1000);
-        setTimeout(movePoprichAdContainer, 2000);
-        setTimeout(movePoprichAdContainer, 3000);
+      // 多次延遲執行
+      [500, 1000, 2000, 3000, 5000].forEach(function(ms) {
+        setTimeout(movePoprichAdContainer, ms);
       });
     }
   </script>
