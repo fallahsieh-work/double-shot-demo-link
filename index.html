@@ -19,36 +19,69 @@
 
       googletag.pubads().enableSingleRequest();
       googletag.enableServices();
-
-      // 桌機版廣告等比縮放
-      googletag.pubads().addEventListener('slotRenderEnded', function(event) {
-        // 只在桌機版執行
-        if (window.innerWidth < 500) return;
-
-        var slotId = event.slot.getSlotElementId();
-        var adContainer = document.getElementById(slotId);
-        if (!adContainer) return;
-
-        // 延遲執行，確保廣告完全渲染
-        setTimeout(function() {
-          var iframe = adContainer.querySelector('iframe');
-          if (!iframe) return;
-
-          var adWidth = iframe.offsetWidth || iframe.clientWidth;
-          var maxWidth = 375;
-
-          // 如果廣告寬度超過框架寬度，進行等比縮放
-          if (adWidth > maxWidth) {
-            var scale = maxWidth / adWidth;
-            adContainer.style.transformOrigin = 'top center';
-            adContainer.style.transform = 'scale(' + scale + ')';
-            // 調整容器高度以避免空白
-            var adHeight = iframe.offsetHeight || iframe.clientHeight;
-            adContainer.style.height = (adHeight * scale) + 'px';
-          }
-        }, 500);
-      });
     });
+
+    // 桌機版廣告等比縮放 - 使用 ResizeObserver
+    function initAdScaling() {
+      // 只在桌機版執行
+      if (window.innerWidth < 500) return;
+
+      var adWrapper = document.querySelector('.ad-wrapper');
+      var adContainer = document.getElementById('div-gpt-ad-1770632308034-0');
+      if (!adWrapper || !adContainer) return;
+
+      var maxWidth = 375;
+      var scaled = false;
+
+      var observer = new ResizeObserver(function(entries) {
+        if (scaled) return; // 只執行一次
+
+        for (var entry of entries) {
+          var contentWidth = entry.contentRect.width;
+
+          // 檢查廣告內部元素的實際寬度
+          var innerElements = adContainer.querySelectorAll('iframe, div[id*="google"], div[data-google]');
+          var actualWidth = contentWidth;
+
+          innerElements.forEach(function(el) {
+            if (el.offsetWidth > actualWidth) {
+              actualWidth = el.offsetWidth;
+            }
+          });
+
+          if (actualWidth > maxWidth) {
+            var scale = maxWidth / actualWidth;
+            adWrapper.style.transformOrigin = 'top center';
+            adWrapper.style.transform = 'scale(' + scale + ')';
+            adWrapper.style.marginBottom = '-' + (entry.contentRect.height * (1 - scale)) + 'px';
+            scaled = true;
+            observer.disconnect();
+          }
+        }
+      });
+
+      observer.observe(adContainer);
+
+      // 備用：延遲檢查
+      setTimeout(function() {
+        if (scaled) return;
+
+        var actualWidth = adContainer.scrollWidth;
+        if (actualWidth > maxWidth) {
+          var scale = maxWidth / actualWidth;
+          adWrapper.style.transformOrigin = 'top center';
+          adWrapper.style.transform = 'scale(' + scale + ')';
+          scaled = true;
+        }
+      }, 2000);
+    }
+
+    // DOM 載入完成後執行
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAdScaling);
+    } else {
+      initAdScaling();
+    }
   </script>
   <!-- ========== GPT 廣告設定 END ========== -->
 
