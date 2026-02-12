@@ -50,8 +50,26 @@
 
       .phone-frame iframe {
         width: 375px;
-        height: 100%;
+        height: calc(100% - 280px);
         border: none;
+        display: block;
+      }
+
+      /* 桌機版廣告容器 */
+      .poprichad-container {
+        width: 100%;
+        max-width: 375px;
+        display: flex;
+        justify-content: center;
+        background: #F5F5F5;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #div-gpt-ad-desktop {
+        background: #F5F5F5;
+        position: relative;
+        overflow: hidden;
       }
 
       /* 桌機版隱藏手機原生內容 */
@@ -170,24 +188,23 @@
   </style>
   <!-- ========== 頁面樣式 END ========== -->
 
-  <!-- ========== GPT 廣告設定 (手機版) ========== -->
+  <!-- ========== GPT 廣告設定 ========== -->
+  <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
   <script>
-    // 只在手機版載入廣告
-    if (window.innerWidth < 500) {
-      document.write('<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"><\/script>');
-    }
-  </script>
-  <script>
-    if (window.innerWidth < 500) {
-      window.googletag = window.googletag || {cmd: []};
-      googletag.cmd.push(function() {
+    window.googletag = window.googletag || {cmd: []};
+    googletag.cmd.push(function() {
+      if (window.innerWidth >= 500) {
+        // 桌機版廣告
+        googletag.defineSlot('/31610311/v4_news_amp_fun_read_inarticle1', [[1, 1], [336, 280], [300, 250], 'fluid'], 'div-gpt-ad-desktop').addService(googletag.pubads());
+      } else {
+        // 手機版廣告
         googletag.defineSlot('/31610311/v4_news_amp_fun_read_inarticle1', [[1, 1], [336, 280], [300, 250], 'fluid'], 'div-gpt-ad-1770632308034-0').addService(googletag.pubads());
-        googletag.pubads().setTargeting('news_article_id', '3123658');
-        googletag.pubads().setTargeting('filled_slots', '');
-        googletag.pubads().enableSingleRequest();
-        googletag.enableServices();
-      });
-    }
+      }
+      googletag.pubads().setTargeting('news_article_id', '3123658');
+      googletag.pubads().setTargeting('filled_slots', '');
+      googletag.pubads().enableSingleRequest();
+      googletag.enableServices();
+    });
   </script>
   <!-- ========== GPT 廣告設定 END ========== -->
 </head>
@@ -196,7 +213,18 @@
   <!-- ========== 桌機版：iframe 嵌入 ========== -->
   <div class="desktop-wrapper">
     <div class="phone-frame">
-      <iframe src="mobile-content.html" title="TVBS Article"></iframe>
+      <!-- 桌機版廣告容器 -->
+      <div class="poprichad-container">
+        <div id="div-gpt-ad-desktop">
+          <script>
+            if (window.innerWidth >= 500) {
+              googletag.cmd.push(function() { googletag.display('div-gpt-ad-desktop'); });
+            }
+          </script>
+        </div>
+      </div>
+      <!-- 文章內容 iframe -->
+      <iframe src="article-content.html" title="TVBS Article"></iframe>
     </div>
   </div>
   <!-- ========== 桌機版 END ========== -->
