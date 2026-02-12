@@ -46,30 +46,35 @@
         box-shadow: 0 0 30px rgba(0,0,0,0.5);
         overflow: hidden;
         background: #F5F5F5;
+        display: flex;
+        flex-direction: column;
       }
 
       .phone-frame iframe {
         width: 375px;
-        height: calc(100% - 280px);
+        flex: 1;
         border: none;
         display: block;
       }
 
-      /* 桌機版廣告容器 */
-      .poprichad-container {
+      /* 桌機版廣告佔位區 */
+      #ad-placeholder {
         width: 100%;
         max-width: 375px;
-        display: flex;
-        justify-content: center;
         background: #F5F5F5;
         overflow: hidden;
         position: relative;
       }
 
-      #div-gpt-ad-desktop {
-        background: #F5F5F5;
-        position: relative;
-        overflow: hidden;
+      /* GPT 創建的 poprichad-container 樣式覆蓋 */
+      #ad-placeholder .poprichad-container,
+      #ad-placeholder [class*="poprichad"] {
+        position: relative !important;
+        max-width: 375px !important;
+        width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+        transform: none !important;
       }
 
       /* 桌機版隱藏手機原生內容 */
@@ -207,21 +212,65 @@
     });
   </script>
   <!-- ========== GPT 廣告設定 END ========== -->
+
+  <!-- ========== 桌機版：移動 GPT 創建的 poprichad-container ========== -->
+  <script>
+    if (window.innerWidth >= 500) {
+      // 監聽 DOM 變化，把 GPT 創建的 poprichad-container 移到 phone-frame 裡
+      function movePoprichAdContainer() {
+        var phoneFrame = document.querySelector('.phone-frame');
+        var adPlaceholder = document.getElementById('ad-placeholder');
+        if (!phoneFrame || !adPlaceholder) return;
+
+        // 找到 body 直接子元素中的 poprichad-container
+        var containers = document.querySelectorAll('body > .poprichad-container, body > [class*="poprichad"]');
+        containers.forEach(function(container) {
+          // 確保不是我們自己創建的
+          if (container.parentElement === document.body) {
+            // 移動到 phone-frame 的 ad-placeholder 裡
+            adPlaceholder.appendChild(container);
+            // 設定樣式確保在框架內
+            container.style.position = 'relative';
+            container.style.maxWidth = '375px';
+            container.style.width = '100%';
+          }
+        });
+      }
+
+      // 使用 MutationObserver 監聽 body 的變化
+      document.addEventListener('DOMContentLoaded', function() {
+        var observer = new MutationObserver(function(mutations) {
+          movePoprichAdContainer();
+        });
+
+        observer.observe(document.body, {
+          childList: true,
+          subtree: false
+        });
+
+        // 初始執行一次
+        setTimeout(movePoprichAdContainer, 1000);
+        setTimeout(movePoprichAdContainer, 2000);
+        setTimeout(movePoprichAdContainer, 3000);
+      });
+    }
+  </script>
+  <!-- ========== 桌機版移動廣告 END ========== -->
 </head>
 <body>
 
   <!-- ========== 桌機版：iframe 嵌入 ========== -->
   <div class="desktop-wrapper">
     <div class="phone-frame">
-      <!-- 桌機版廣告容器 -->
-      <div class="poprichad-container">
-        <div id="div-gpt-ad-desktop">
-          <script>
-            if (window.innerWidth >= 500) {
-              googletag.cmd.push(function() { googletag.display('div-gpt-ad-desktop'); });
-            }
-          </script>
-        </div>
+      <!-- 廣告佔位區：GPT 創建的 poprichad-container 會被移到這裡 -->
+      <div id="ad-placeholder"></div>
+      <!-- 桌機版廣告觸發 -->
+      <div id="div-gpt-ad-desktop" style="display:none;">
+        <script>
+          if (window.innerWidth >= 500) {
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-desktop'); });
+          }
+        </script>
       </div>
       <!-- 文章內容 iframe -->
       <iframe src="article-content.html" title="TVBS Article"></iframe>
